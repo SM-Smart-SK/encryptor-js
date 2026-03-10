@@ -1,0 +1,43 @@
+const key = {
+    'A': '1', 'B': 'D', 'C': 'F', 'D': 'E', 'E': '2', 'F': 'I', 
+    'G': 'H', 'H': 'J', 'I': '3', 'J': 'K', 'K': 'M', 'L': 'O', 
+    'M': 'N', 'N': 'P', 'O': '4', 'P': 'Q', 'Q': 'S', 'R': 'U', 
+    'S': 'T', 'T': 'V', 'U': '5', 'V': 'W', 'W': 'Y', 'X': 'A', 
+    'Y': 'Z', 'Z': 'B',
+    '1': '!', '2': '@', '3': '#', '4': '$', '5': '%', 
+    '6': '^', '7': '&', '8': '*', '9': '(', '0': ')',
+    '.': '+', ',': '=', '!': '?', '?': '_', ':': '/', ';': '|'
+};
+
+const reverseKey = Object.fromEntries(Object.entries(key).map(([k, v]) => [v, k]));
+
+function encrypt() {
+    let input = document.getElementById('inputText').value;
+    input = input.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toUpperCase();
+    if(!input) return;
+
+    const words = input.trim().split(/\s+/);
+    const result = words.map(word => {
+        return word.split('').map(char => key[char] || char).join('-');
+    }).join('--');
+
+    document.getElementById('outputText').innerText = result;
+}
+
+function decrypt() {
+    const input = document.getElementById('inputText').value.trim();
+    if (!input) return;
+
+    const words = input.split('--');
+    const result = words.map(word => {
+        return word.split('-').map(char => reverseKey[char] || char).join('');
+    }).join(' ');
+
+    document.getElementById('outputText').innerText = result;
+}
+
+function copyToClipboard() {
+    const text = document.getElementById('outputText').innerText;
+    navigator.clipboard.writeText(text);
+    alert("Skopírované!");
+}
