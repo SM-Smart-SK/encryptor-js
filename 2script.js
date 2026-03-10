@@ -18,8 +18,8 @@ function encrypt() {
 
     const words = input.trim().split(/\s+/);
     const result = words.map(word => {
-        return word.split('').map(char => key[char] || char).join('-');
-    }).join('--');
+        return word.split('').map(char => key[char] || char);
+    })
 
     document.getElementById('outputText').innerText = result;
 }
@@ -28,10 +28,8 @@ function decrypt() {
     const input = document.getElementById('inputText').value.trim();
     if (!input) return;
 
-    const words = input.split('--');
-    const result = words.map(word => {
-        return word.split('-').map(char => reverseKey[char] || char).join('');
-    }).join(' ');
+    const result = words.map(word => {.map(char => reverseKey[char] || char);
+    });
 
     document.getElementById('outputText').innerText = result;
 }
